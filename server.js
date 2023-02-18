@@ -45,6 +45,7 @@ server.post('/submitForm', async (req, res) => {
         telefono: req.body.telefono
     }
     await formularios.save(form)
+    res.send(form)
 })
 
 server.listen(port, async ()=>{
