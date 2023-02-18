@@ -45,7 +45,7 @@ server.post('/submitForm', async (req, res) => {
         telefono: req.body.telefono
     }
     await formularios.save(form)
-    res.end()
+    res.redirect("http://localhost:3000/trabajaconnosotros")
 })
 
 server.listen(port, async ()=>{
