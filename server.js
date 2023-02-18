@@ -45,7 +45,8 @@ server.post('/submitForm', async (req, res) => {
         telefono: req.body.telefono
     }
     await formularios.save(form)
-    res.redirect("http://localhost:3000/trabajaconnosotros")
+    res.header("Access-Control-Allow-Origin", "*");
+    res.send(200)
 })
 
 server.listen(port, async ()=>{
