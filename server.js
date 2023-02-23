@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const MongoDb = require('./Contenedores/ContenedorMongoDb.js')
-const port = 3000
+const port = 8080
 
 //Schemas y configuracion mongodb
 const schemaFormularios = {
@@ -13,6 +13,7 @@ const schemaFormularios = {
 const collectionFormulariosSchema = new mongoose.Schema(schemaFormularios)
 const collectionFormulario = mongoose.model("formularios", collectionFormulariosSchema)
 const formularios = new MongoDb(collectionFormulario);
+
 
 const initMongoDB = async () => {
     const connectAtlas = "mongodb+srv://root:root@cluster0.i61fljc.mongodb.net/cliente?retryWrites=true&w=majority"
@@ -29,12 +30,16 @@ const initMongoDB = async () => {
 
 //Server configuracion
 const server = express();
+server.set('views', './views'); 
+server.set('view engine', 'ejs'); 
 server.use(express.json())
 server.use(express.urlencoded({extended: true}))
+server.use(express.static('./public'))
 
 //Server rutas e inicializacion
-server.get('/', (req, res) => {
-    res.send(`Server escuchando en puerto ${port}`)
+server.get('/', async (req, res) => {
+    const consultas = await formularios.getAll()
+    res.render("index", {consultas: consultas})
 })
 
 server.post('/submitForm', async (req, res) => {
