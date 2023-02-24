@@ -2,6 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const MongoDb = require('./Contenedores/ContenedorMongoDb.js')
 const port = 8080
+const multer = require('multer')
+
+
 
 //Schemas y configuracion mongodb
 const schemaFormularios = {
@@ -49,6 +52,16 @@ const collectionPropertiesSchema = new mongoose.Schema(schemaProperties)
 const collectionProperties = mongoose.model("propiedades", collectionPropertiesSchema)
 const propiedades = new MongoDb(collectionProperties)
 
+const schemaPropiedadesSubidas = {
+    titulo: {type: String, require: true, max: 100},
+    precio: {type: Number, require: true},
+    url: {type: String, require: true, max: 100},
+    imagen: {type: String, require: true, max: 100}
+}
+
+const collectionPropiedadesSubidasSchema = new mongoose.Schema(schemaPropiedadesSubidas)
+const collectionPropiedadesSubidas = mongoose.model("propiedades_subidas", collectionPropiedadesSubidasSchema)
+const propiedadesSubidas = new MongoDb(collectionPropiedadesSubidas)
 
 const initMongoDB = async () => {
     const connectAtlas = "mongodb+srv://root:root@cluster0.i61fljc.mongodb.net/cliente?retryWrites=true&w=majority"
@@ -63,10 +76,23 @@ const initMongoDB = async () => {
     }
 }
 
-
-
 //Server configuracion
 const server = express();
+
+const storage = multer.diskStorage({
+    destination: './public',
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+
+//Multer
+server.use(multer({
+    storage,
+    dest: './public'
+}).single('imagenPropiedad'))
+const upload = multer({storage: storage})
+
 server.set('views', './views'); 
 server.set('view engine', 'ejs'); 
 server.use(express.json())
@@ -83,6 +109,26 @@ server.get('/propiedades', async (req, res) => {
     const propiedadesInfo = await propiedades.getAll()
     res.render("propiedades", {propiedades: propiedadesInfo})
 })  
+
+server.get('/formulariopropiedad', (req, res) => {
+    res.render("formulariopropiedad")
+})  
+
+server.get('/propiedadesSubidas', async (req, res) => {
+    const propiedadesSubidasInfo = await propiedadesSubidas.getAll()
+    res.json(propiedadesSubidasInfo)
+})
+
+server.post('/subirPropiedad', async (req, res) => {
+    const propiedad = {
+        titulo: req.body.titulo,
+        precio: req.body.precio,
+        url: req.body.url,
+        imagen: req.file.originalname
+    }
+    await propiedadesSubidas.save(propiedad)
+    res.send(propiedad)
+})
 
 server.post('/submitForm', async (req, res) => {
     const form = {
