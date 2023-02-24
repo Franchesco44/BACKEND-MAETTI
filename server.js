@@ -62,8 +62,8 @@ const initMongoDB = async () => {
         console.log(error)
     }
 }
-const propiedadesInfo = propiedades.getAll()
-const consultasInfo =  formularios.getAll()
+
+
 
 //Server configuracion
 const server = express();
@@ -75,11 +75,13 @@ server.use(express.static('./public'))
 
 //Server rutas e inicializacion
 server.get('/', async (req, res) => {
-    res.render("index", {consultas: await consultasInfo})
+    const consultasInfo =  await formularios.getAll()
+    res.render("index", {consultas: consultasInfo})
 })
 
 server.get('/propiedades', async (req, res) => {
-    res.render("propiedades", {propiedades: await propiedadesInfo})
+    const propiedadesInfo = await propiedades.getAll()
+    res.render("propiedades", {propiedades: propiedadesInfo})
 })  
 
 server.post('/submitForm', async (req, res) => {
