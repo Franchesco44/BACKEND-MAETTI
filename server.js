@@ -56,7 +56,9 @@ const schemaPropiedadesSubidas = {
     titulo: {type: String, require: true, max: 100},
     precio: {type: Number, require: true},
     url: {type: String, require: true, max: 100},
-    imagen: {type: String, require: true, max: 100}
+    imagen: {type: String, require: true, max: 100},
+    alquiler: {type: String, require: true, max: 100},
+    ubicacion: {type: String, require: true, max: 100}
 }
 
 const collectionPropiedadesSubidasSchema = new mongoose.Schema(schemaPropiedadesSubidas)
