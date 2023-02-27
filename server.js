@@ -124,7 +124,9 @@ server.post('/subirPropiedad', async (req, res) => {
         titulo: req.body.titulo,
         precio: req.body.precio,
         url: req.body.url,
-        imagen: req.file.originalname
+        imagen: req.file.originalname,
+        alquiler: req.body.alquiler,
+        ubicacion: req.body.ubicacion
     }
     await propiedadesSubidas.save(propiedad)
     res.send(propiedad)
@@ -135,7 +137,7 @@ server.post('/submitForm', async (req, res) => {
         nombre: req.body.nombre,
         email: req.body.email,
         consulta: req.body.consulta,
-        telefono: req.body.telefono
+        telefono: req.body.telefono,
     }
     await formularios.save(form)
     res.header("Access-Control-Allow-Origin", "*");
