@@ -116,6 +116,7 @@ server.get('/formulariopropiedad', (req, res) => {
 
 server.get('/propiedadesSubidas', async (req, res) => {
     const propiedadesSubidasInfo = await propiedadesSubidas.getAll()
+    res.header("Access-Control-Allow-Origin", "*");
     res.json(propiedadesSubidasInfo)
 })
 
@@ -128,6 +129,7 @@ server.post('/subirPropiedad', async (req, res) => {
         alquiler: req.body.alquiler,
         ubicacion: req.body.ubicacion
     }
+    res.header("Access-Control-Allow-Origin", "*");
     await propiedadesSubidas.save(propiedad)
     res.send(propiedad)
 })
