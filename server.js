@@ -4,8 +4,6 @@ const MongoDb = require('./Contenedores/ContenedorMongoDb.js')
 const port = process.env.PORT || 8080
 const multer = require('multer')
 
-
-
 //Schemas y configuracion mongodb
 const schemaFormularios = {
     nombre: {type: String, require: true, max: 100},
@@ -16,7 +14,6 @@ const schemaFormularios = {
 const collectionFormulariosSchema = new mongoose.Schema(schemaFormularios)
 const collectionFormulario = mongoose.model("formularios", collectionFormulariosSchema)
 const formularios = new MongoDb(collectionFormulario);
-
 
 const schemaProperties = {
         nombre: {type: String, require: true, max: 100},
@@ -66,7 +63,7 @@ const collectionPropiedadesSubidas = mongoose.model("propiedades_subidas", colle
 const propiedadesSubidas = new MongoDb(collectionPropiedadesSubidas)
 
 const initMongoDB = async () => {
-    const connectAtlas = "mongodb+srv://root:root@cluster0.i61fljc.mongodb.net/cliente?retryWrites=true&w=majority"
+    const connectAtlas = "mongodb+srv://maettiairbnb:123@maetti.yweko6v.mongodb.net/maettiweb?retryWrites=true&w=majority"
     try {
         await mongoose.connect(connectAtlas, {
             useNewUrlParser: true,
