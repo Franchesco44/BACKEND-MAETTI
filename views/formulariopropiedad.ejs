@@ -19,12 +19,14 @@
 
         <form class="p-2" action="/subirPropiedad" enctype="multipart/form-data" method="post">
             <input class="form-control my-2" required type="text" name="titulo" placeholder="Titulo de la propiedad">
+            <input class="form-control my-2" required type="text" name="descripcion" placeholder="Descripcion de la propiedad">
             <input class="form-control my-2" required type="number" name="precio" placeholder="Precio de propiedad">
-            <input class="form-control my-2" required type="url" name="url" placeholder="Link de airbnb">
+            <input class="form-control my-2" type="url" name="url" placeholder="Link de airbnb">
             <label for="alquiler">Alquiler por </label>
             <input class="form-control my-2" required type="text" name="alquiler" placeholder="Colocar solo 'mensual' o 'noche'">
-            <input class="form-control my-2" required type="text" name="ubicacion" placeholder="Ubicacion">
-            <input class="form-control my-2" required type="file" name="imagenPropiedad" />
+            <input class="form-control my-2" required type="text" name="ubicacion" placeholder="Ubicacion exacta">
+            <input class="form-control my-2" required type="text" name="zona" placeholder="Zona">
+            <input class="form-control my-2" required type="file" name="imagenPropiedad" multiple/>
             <input class="btn btn-primary my-2" type="submit" value="Upload a file"/>
         </form>
         

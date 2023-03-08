@@ -30,12 +30,12 @@ const schemaProperties = {
         rangoprecio: {type: String, require: true, max: 100},
         servicios: {type: String, require: true, max: 100},
         cantidadhuespedes: {type: Number, require: true},
-        limpiezatarifa: {type: Number, require: true},
+        limpiezatarifa: {type: String, require: true},
         estadiaminima: {type: Number, require: true},
         estadiamaxima: {type: Number, require: true},
         diasaviso: {type: Number, require: true},
         tiempopreparacion: {type: Number, require: true},
-        diasrestringidos: {type: Number, require: true},
+        diasrestringidos: {type: String, require: true},
         horariocheckin: {type: String, require: true, max: 100},
         horariocheckout: {type: String, require: true, max: 100},
         infomascotas: {type: String, require: true, max: 100},
@@ -51,11 +51,13 @@ const propiedades = new MongoDb(collectionProperties)
 
 const schemaPropiedadesSubidas = {
     titulo: {type: String, require: true, max: 100},
+    descripcion: {type: String, require: true},
     precio: {type: Number, require: true},
     url: {type: String, require: true, max: 100},
-    imagen: {type: String, require: true, max: 100},
+    imagen: {type: Array, require: true, max: 100},
     alquiler: {type: String, require: true, max: 100},
-    ubicacion: {type: String, require: true, max: 100}
+    ubicacion: {type: String, require: true, max: 100},
+    zona: {type: String, require: true, max: 100}
 }
 
 const collectionPropiedadesSubidasSchema = new mongoose.Schema(schemaPropiedadesSubidas)
@@ -89,7 +91,7 @@ const storage = multer.diskStorage({
 server.use(multer({
     storage,
     dest: './public'
-}).single('imagenPropiedad'))
+}).array('imagenPropiedad'))
 const upload = multer({storage: storage})
 
 server.set('views', './views'); 
@@ -119,14 +121,24 @@ server.get('/propiedadesSubidas', async (req, res) => {
     res.json(propiedadesSubidasInfo)
 })
 
+server.get('/propiedad/:id', async (req, res) => {
+    const propiedad = await propiedadesSubidas.getById(req.params.id)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.json(propiedad)
+})
+
 server.post('/subirPropiedad', async (req, res) => {
+    const imagenes = []
+    req.files.forEach((f)=> imagenes.push(f.originalname))
     const propiedad = {
         titulo: req.body.titulo,
+        descripcion: req.body.descripcion,
         precio: req.body.precio,
         url: req.body.url,
-        imagen: req.file.originalname,
+        imagen: imagenes,
         alquiler: req.body.alquiler,
-        ubicacion: req.body.ubicacion
+        ubicacion: req.body.ubicacion,
+        zona: req.body.zona
     }
     res.header("Access-Control-Allow-Origin", "*");
     await propiedadesSubidas.save(propiedad)

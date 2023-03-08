@@ -12,6 +12,11 @@ class MongoDb {
         const listaElementos = await this.collections.find();
         return listaElementos
     }
+    
+    async getById(id){
+        const elemento = await this.collections.find().where({_id: id});
+        return elemento
+    }
 
     async deleteById(id){
         const eliminarElemento = await this.collections.deleteOne({_id: id})
