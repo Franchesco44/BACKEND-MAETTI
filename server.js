@@ -51,6 +51,7 @@ const propiedades = new MongoDb(collectionProperties)
 
 const schemaPropiedadesSubidas = {
     titulo: {type: String, require: true, max: 100},
+    tituloIngles:{type: String, require: true, max: 100},
     descripcion: {type: String, require: true}, 
     descripcionIngles: {type: String, require: true},
     precio: {type: Number, require: true},
@@ -151,6 +152,7 @@ server.post('/subirPropiedad', async (req, res) => {
     req.files.forEach((f)=> imagenes.push(f.originalname))
     const propiedad = {
         titulo: req.body.titulo,
+        tituloIngles: req.body.tituloIngles,
         descripcion: req.body.descripcion,
         descripcionIngles: req.body.descripcionIngles,
         precio: req.body.precio,
