@@ -49,6 +49,8 @@ const collectionPropertiesSchema = new mongoose.Schema(schemaProperties)
 const collectionProperties = mongoose.model("propiedades", collectionPropertiesSchema)
 const propiedades = new MongoDb(collectionProperties)
 
+//Schema propiedades subidas
+
 const schemaPropiedadesSubidas = {
     titulo: {type: String, require: true, max: 100},
     tituloIngles:{type: String, require: true, max: 100},
@@ -65,6 +67,39 @@ const schemaPropiedadesSubidas = {
 const collectionPropiedadesSubidasSchema = new mongoose.Schema(schemaPropiedadesSubidas)
 const collectionPropiedadesSubidas = mongoose.model("propiedades_subidas", collectionPropiedadesSubidasSchema)
 const propiedadesSubidas = new MongoDb(collectionPropiedadesSubidas)
+
+//Schema vehiculos subidos
+
+const schemaVehiculosSubidos = {
+    titulo: {type: String, require: true, max: 100},
+    descripcion: {type: String, require: true}, 
+    descripcionIngles: {type: String, require: true},
+    precio: {type: Number, require: true},
+    imagen: {type: Array, require: true, max: 100},
+    ubicacion: {type: String, require: true, max: 100},
+    zona: {type: String, require: true, max: 100}
+}
+
+const collectionVehiculosSubidosSchema = new mongoose.Schema(schemaVehiculosSubidos)
+const collectionVehiculosSubidos = mongoose.model("vehiculos_subidos", collectionVehiculosSubidosSchema)
+const vehiculosSubidos = new MongoDb(collectionVehiculosSubidos)
+
+
+//Schema beneficios subidos
+
+const schemaBeneficiosSubidos = {
+    titulo: {type: String, require: true, max: 100},
+    descripcion: {type: String, require: true}, 
+    descripcionIngles: {type: String, require: true},
+    telefono: {type: String, require: true},
+    instagram: {type: String, require: true, max: 100},
+    mail: {type: String, require: true, max: 100},
+    imagen: {type: String, require: true, max: 100}
+}
+
+const collectionBeneficiosSubidosSchema = new mongoose.Schema(schemaBeneficiosSubidos)
+const collectionBeneficiosSubidos = mongoose.model("beneficios_subidos", collectionBeneficiosSubidosSchema)
+const beneficiosSubidos = new MongoDb(collectionBeneficiosSubidos)
 
 const initMongoDB = async () => {
     const connectAtlas = "mongodb+srv://maettiairbnb:123@maetti.yweko6v.mongodb.net/maettiweb?retryWrites=true&w=majority"
@@ -126,26 +161,16 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+server.get('/formulariopropiedad', (req, res) => {
+    res.render("formulariopropiedad")
+}) 
+
 server.get('/propiedades', async (req, res) => {
     const propiedadesInfo = await propiedades.getAll()
     res.render("propiedades", {propiedades: propiedadesInfo})
 })  
 
-server.get('/formulariopropiedad', (req, res) => {
-    res.render("formulariopropiedad")
-})  
-
-server.get('/propiedadesSubidas', async (req, res) => {
-    const propiedadesSubidasInfo = await propiedadesSubidas.getAll()
-    res.header("Access-Control-Allow-Origin", "*");
-    res.json(propiedadesSubidasInfo)
-})
-
-server.get('/propiedad/:id', async (req, res) => {
-    const propiedad = await propiedadesSubidas.getById(req.params.id)
-    res.header("Access-Control-Allow-Origin", "*");
-    res.json(propiedad)
-})
+//Propiedades
 
 server.post('/subirPropiedad', async (req, res) => {
     const imagenes = []
@@ -166,6 +191,87 @@ server.post('/subirPropiedad', async (req, res) => {
     await propiedadesSubidas.save(propiedad)
     res.send(propiedad)
 })
+
+server.get('/propiedadesSubidas', async (req, res) => {
+    const propiedadesSubidasInfo = await propiedadesSubidas.getAll()
+    res.header("Access-Control-Allow-Origin", "*");
+    res.json(propiedadesSubidasInfo)
+})
+
+server.get('/propiedad/:id', async (req, res) => {
+    const propiedad = await propiedadesSubidas.getById(req.params.id)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.json(propiedad)
+})
+
+//Vehiculos
+
+server.get('/formulariovehiculos', (req, res) => {
+    res.render("formulariovehiculos")
+})  
+
+server.post('/subirVehiculo', async (req, res) => {
+    const imagenes = []
+    req.files.forEach((f)=> imagenes.push(f.originalname))
+    const vehiculo = {
+        titulo: req.body.titulo,
+        descripcion: req.body.descripcion,
+        descripcionIngles: req.body.descripcionIngles,
+        precio: req.body.precio,
+        imagen: imagenes,
+        ubicacion: req.body.ubicacion,
+        zona: req.body.zona
+    }
+    res.header("Access-Control-Allow-Origin", "*");
+    await vehiculosSubidos.save(vehiculo)
+    res.send(vehiculo)
+})
+
+server.get('/vehiculo/:id', async (req, res) => {
+    const vehiculo = await vehiculosSubidos.getById(req.params.id)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.json(vehiculo)
+})
+
+server.get('/vehiculosSubidos', async (req, res) => {
+    const vehiculosSubidosInfo = await vehiculosSubidos.getAll()
+    res.header("Access-Control-Allow-Origin", "*");
+    res.json(vehiculosSubidosInfo)
+})
+
+//Beneficios
+
+server.get('/formulariobeneficios', (req, res) => {
+    res.render("formulariobeneficios")
+})  
+
+server.post('/subirBeneficios', async (req, res) => {
+    const beneficio = {
+        titulo: req.body.titulo,
+        descripcion: req.body.descripcion,
+        descripcionIngles: req.body.descripcionIngles,
+        telefono: req.body.telefono,
+        instagram: req.body.instagram,
+        mail: req.body.mail,
+        imagen: req.files[0].originalname
+    }
+    res.header("Access-Control-Allow-Origin", "*");
+    await beneficiosSubidos.save(beneficio)
+    res.send(beneficio)
+})
+
+server.get('/beneficiosSubidos', async (req, res) => {
+    const beneficiosSubidosInfo = await beneficiosSubidos.getAll()
+    res.header("Access-Control-Allow-Origin", "*");
+    res.json(beneficiosSubidosInfo)
+})
+
+
+
+
+
+
+//Formularios de contacto y propiedades
 
 server.post('/submitForm', async (req, res) => {
     const form = {

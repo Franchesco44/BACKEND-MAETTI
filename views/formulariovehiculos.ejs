@@ -9,27 +9,24 @@
 </head>
 <body>
     <main>
-        <h2>API MAETTI - SUBIR PROPIEDAD</h2>
+        <h2>API MAETTI - SUBIR VEHICULOS</h2>
         <button onclick="location.href='/propiedades'">VER FORMULARIO DE PROPIEDADES</button>
         <button onclick="location.href='/'">VER FORMULARIO DE CONSULTAS</button>
-        <button onclick="location.href='/formulariovehiculos'">SUBIR VEHICULOS</button>
+        <button onclick="location.href='/formulariopropiedad'">SUBIR PROPIEDADES</button>
         <button onclick="location.href='/formulariobeneficios'">SUBIR BENEFICIOS</button>
         <br>
         <br>
 
-        <strong>SUBIR PROPIEDAD</strong>
+        <strong>SUBIR VEHICULO</strong>
 
-        <form class="p-2" action="/subirPropiedad" enctype="multipart/form-data" method="post">
-            <input class="form-control my-2" required type="text" name="titulo" placeholder="Titulo de la propiedad en español">
-            <input class="form-control my-2" required type="text" name="tituloIngles" placeholder="Titulo de la propiedad en ingles">
-            <input class="form-control my-2" required type="text" name="descripcion" placeholder="Descripcion en español">
-            <input class="form-control my-2" required type="text" name="descripcionIngles" placeholder="Descripcion en ingles">
-            <input class="form-control my-2" required type="number" name="precio" placeholder="Precio de propiedad">
-            <input class="form-control my-2" type="url" name="url" placeholder="Link de airbnb">
-            <label for="alquiler">Alquiler por </label>
-            <input class="form-control my-2" required type="text" name="alquiler" placeholder="Colocar solo 'mensual' o 'noche'">
+        <form class="p-2" action="/subirVehiculo" enctype="multipart/form-data" method="post">
+            <input class="form-control my-2" required type="text" name="titulo" placeholder="Titulo del vehiculo">
+            <input class="form-control my-2" required type="text" name="descripcion" placeholder="Descripcion del vehiculo en español">
+            <input class="form-control my-2" required type="text" name="descripcionIngles" placeholder="Descripcion del vehiculo en ingles">
+            <input class="form-control my-2" required type="number" name="precio" placeholder="Precio de vehiculo por dia">
             <input class="form-control my-2" required type="text" name="ubicacion" placeholder="Ubicacion exacta">
             <input class="form-control my-2" required type="text" name="zona" placeholder="Zona">
+            <label for="imagenPropiedad">Imagenes del coche</label>
             <input class="form-control my-2" required type="file" name="imagenPropiedad" multiple/>
             <input class="btn btn-primary my-2" type="submit" value="Upload a file"/>
         </form>
