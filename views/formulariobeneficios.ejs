@@ -20,6 +20,8 @@
         <strong>SUBIR BENEFICIOS</strong>
 
         <form class="p-2" action="/subirBeneficios" enctype="multipart/form-data" method="post">
+            <Label for="tipobeneficio">Tipo de beneficio (huespedes o propietarios)</Label>
+            <input class="form-control my-2" required type="text" name="tipobeneficio" placeholder="escribir solo huespedes o propietarios">
             <input class="form-control my-2" required type="text" name="titulo" placeholder="Nombre de la empresa">
             <input class="form-control my-2" required type="text" name="descripcion" placeholder="Descripcion del beneficio en español">
             <input class="form-control my-2" required type="text" name="descripcionIngles" placeholder="Descripcion del beneficio en ingles">

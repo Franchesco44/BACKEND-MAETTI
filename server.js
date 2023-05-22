@@ -57,6 +57,7 @@ const schemaPropiedadesSubidas = {
     descripcion: {type: String, require: true}, 
     descripcionIngles: {type: String, require: true},
     precio: {type: Number, require: true},
+    huespedes: {type: Number, require: true},
     url: {type: String, require: true, max: 100},
     imagen: {type: Array, require: true, max: 100},
     alquiler: {type: String, require: true, max: 100},
@@ -94,7 +95,8 @@ const schemaBeneficiosSubidos = {
     telefono: {type: String, require: true},
     instagram: {type: String, require: true, max: 100},
     mail: {type: String, require: true, max: 100},
-    imagen: {type: String, require: true, max: 100}
+    imagen: {type: String, require: true, max: 100},
+    tipobeneficio: {type: String, require: true, max: 100}
 }
 
 const collectionBeneficiosSubidosSchema = new mongoose.Schema(schemaBeneficiosSubidos)
@@ -181,6 +183,7 @@ server.post('/subirPropiedad', async (req, res) => {
         descripcion: req.body.descripcion,
         descripcionIngles: req.body.descripcionIngles,
         precio: req.body.precio,
+        huespedes: req.body.huespedes,
         url: req.body.url,
         imagen: imagenes,
         alquiler: req.body.alquiler,
@@ -253,7 +256,8 @@ server.post('/subirBeneficios', async (req, res) => {
         telefono: req.body.telefono,
         instagram: req.body.instagram,
         mail: req.body.mail,
-        imagen: req.files[0].originalname
+        imagen: req.files[0].originalname,
+        tipobeneficio: req.body.tipobeneficio
     }
     res.header("Access-Control-Allow-Origin", "*");
     await beneficiosSubidos.save(beneficio)
